@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<!--
+	Full Motion by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+
+<head>
+    <title>workorders</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/schadual.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+    <style>
+        table,
+        td {
+            padding: 10px;
+            border: 1px solid black;
+            border-collapse: collapse;
+            color: black;
+            font-size: 20px;
+            font-weight: 500;
+        }
+        
+        #header {
+            background-color: #70c7be;
+            font-size: 25px;
+            font-weight: bold;
+        }
+        
+        a:hover {
+            color: black;
+        }
+        
+        a {
+            color: black;
+            font-size: 20px;
+            font-weight: 500;
+        }
+        
+        .button.fit {
+            font-size: 20px;
+        }
+    </style>
+
+</head>
+
+<body id="top">
+
+    <!-- Main -->
+    <div id="main">
+        <div class="inner">
+
+            <!-- Boxes -->
+            <div class="thumbnails">
+
+                <div class="box">
+                    <div class="inner">
+                        <a href="{{ url_for('index') }}" class="button fit" data-poptrox="youtube,800x400">Home</a>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="inner">
+                        <a href="{{ url_for('workorders') }}" class="button fit" data-poptrox="youtube,800x400">View workorders</a>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="inner">
+                        <a href="{{ url_for('addworkorders') }}" class="button fit" data-poptrox="youtube,800x400">Add new workorders</a>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="inner">
+                        <a href="{{ url_for('editworkorders') }}" class="button fit" data-poptrox="youtube,800x400">edit workorders</a>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <form action="{{ url_for('workorders') }}" id="booking-form" class="booking-form" method="POST">
+            <div class="form-group">
+                <div class="form-destination">
+                    <label for="destination">workorders</label>
+                    <input type="text" id="destination" name="Workorders" placeholder="Pick Order Number" />
+                </div>
+                <div class="form-date-from form-icon">
+                    <label for="date_from">Installation date</label>
+                    <input type="date" id="date_from" class="date_from" name="Installation date" placeholder="Pick a date" />
+                    <!-- <span class="icon"><i class="zmdi zmdi-calendar-alt"></i></span> -->
+                </div>
+                <div class="form-date-to form-icon">
+                    <label for="date_to">Warranty date</label>
+                    <input type="date" id="date_to" class="date_to" name="Warranty date" placeholder="Pick a date" />
+                    <!-- <span class="icon"><i class="zmdi zmdi-calendar-alt"></i></span> -->
+                </div>
+
+                <div class="form-submit">
+                    <input type="submit" id="submit" class="submit" value="Search" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <table>
+        <tr>
+            <th>Order_number</th>
+            <th>Asset_ID</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Creation_date</th>
+            <th>Demand</th>
+            <th>Sart_date</th>
+            <th>Due_date</th>
+            <th>PM_date</th>
+            <th>PM_frequancy</th>
+            <th>Priority</th>
+            <th>Description</th>
+            <th>Association</th>
+            <th>Demand_cost</th>
+
+        </tr>
+
+    </table>
+    <br> {% with alerts = get_flashed_messages() %} {% if alerts %}
+    <ul>
+        {% for alert in alerts %}
+        <li>
+            {{alert}}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %} {% endwith %}
+
+    <br>
+    <br>
+
+    <a href="{{ url_for('workorders') }}" class="button fit" data-poptrox="youtube,800x400">View workorders</a>
+
+    <br>
+    <br>
+
+    <br> {% for Workorders in Workorders %} Order_number: {{workorders.Order_number}}
+    <br> Asset_ID: {{workorders.Asset_ID}}
+    <br> Name: {{workorders.Name}}
+    <br> Status: {{workorders.Status}}
+    <br>Creation_date: {{workorders.Creation_date}}
+    <br>Demand: {{workorders.Demand}}
+    <br>Start_date: {{workorders.Start_date}}
+    <br>Due_date: {{workorders.Due_date}}
+    <br>PM_date: {{workorders.PM_date}}
+    <br>PM_frequancy: {{workorders.PM_frequancy}}
+    <br>Priority: {{workorders.Priority}}
+    <br>Description: {{workorders.Description}}
+    <br>Association: {{workorders.Association}}
+    <br>Demand_cost: {{workorders.Dmand_cost}}
+    <br>
+    <br><br> {% endfor %}
+
+</body>
+
+</html>
