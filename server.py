@@ -1,6 +1,7 @@
 
 import mysql.connector
 from flask import Flask, redirect, url_for, request,render_template,flash, send_file
+from flask_table import Table, Col
 from io import BytesIO
 import os
 mydb = mysql.connector.connect(
@@ -234,5 +235,70 @@ def editOrder():
 	
   else:
     return render_template("/editOrder.html")
+
+@app.route('/View workorders', methods=['POST','GET'])
+def View workorders():
+	if request.method == "POST":
+        details = request.form
+        Order_number= details['Order_number']
+        Asset_ID = details['Asset_ID']
+	Name = details['Name']
+	Status = details['Status']
+	Creation_date= details['Creation_date']
+	Demand = details['Demand']
+	Start_date = details['Start_date']
+	Due_date = details['Due_date']
+	PM_date = details['PM_date']
+	PM_frequancy = details['PM_frequancy']
+	Priority = details['Priority']
+	Description= details['Description']
+	Association= details['Association']
+	Demand_cost= details['Demand_cost']
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO workorders(Order_number,Asset_ID ,Name,Status,Creation_date,Demand,Start_date,Due_date,PM_date,PM_frequancy,Priority,Description,Association,Demand_cost) VALUES (%s, %s, %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (Order_number,Asset_ID ,Name,Status,Creation_date,Demand,Start_date,Due_date,PM_date,PM_frequancy,Priority,Description,Association,Demand_cost))
+        mysql.connection.commit()
+        cur.close()
+        return 'success'
+    return render_template('workorders.html')
+
+  if request.method == 'POST':
+    view workorders = request.form["workorders"]
+    installation = request.form["Installation date"]
+    warranty = request.form["Warranty date"]
+    if View workorders == '':
+      mycursor.execute("SELECT * FROM workorders")
+      row_headers=[x[0] for x in mycursor.description] 
+      myresult = mycursor.fetchall()
+      data={
+      'message':"data retrieved",
+      'rec':myresult,
+      'header':row_headers
+      }
+      return render_template("workorders.html",data=data)
+
+    else :
+      mycursor.execute("SELECT * FROM workorders WHERE Name= '" +workorders+ "' AND Installation_date = '" +installation+ "' AND Warranty_expires = '" +warranty+ "' ")
+      row_headers=[x[0] for x in mycursor.description] 
+      myresult = mycursor.fetchall()
+      data={
+      'message':"data retrieved",
+      'rec':myresult,
+      'header':row_headers
+      }
+      return render_template("workorders.html",data=data)
+     
+
+  else:
+    mycursor.execute("SELECT * FROM workorders")
+    row_headers=[x[0] for x in mycursor.description] 
+    myresult = mycursor.fetchall()
+    data={
+    'message':"data retrieved",
+    'rec':myresult,
+    'header':row_headers
+    }
+    return render_template("workorders.html",data=data)
+   
+
 if __name__ == '__main__':
 	app.run(debug=True)
